@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import debounce from 'lodash.debounce';
 
 import './App.css';
 import { SearchBar, GifsList, GifItem } from './Components';
 
 const giphyApiUrl = 'http://api.giphy.com/v1/gifs/search';
 const gyphyApiKey = 'dc6zaTOxFJmzC';
+
+const debouncedTime = 300;
 
 class App extends Component {
 	state = {
@@ -21,10 +24,15 @@ class App extends Component {
 		.then(res => this.setState({ gifs: res.data }))
 	}
 
-	handleInputChange = ({ target }) => {
+	debouncedInputChange = debounce(({ target }) => {
 		this.setState({
 			searchString: target.value
 		}, this.handleSearch);
+	}, debouncedTime)
+
+	handleInputChange = event => {
+		event.persist();
+		this.debouncedInputChange(event);
 	}
 
 	renderGifItems = () => {
