@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
 
 import './App.css';
-import { SearchBar, GifsList, GifItem } from './Components';
+import { SearchBar, GifsList, GifItem, CustomModal } from './Components';
 
 const giphyApiUrl = 'http://api.giphy.com/v1/gifs/search';
 const gyphyApiKey = 'dc6zaTOxFJmzC';
@@ -12,7 +12,9 @@ const debouncedTime = 300;
 class App extends Component {
 	state = {
 		searchString: '',
-		gifs: []
+		gifs: [],
+		selectedGif: '',
+		isModalOpen: false
 	}
 
 	handleSearch = () => {
@@ -35,12 +37,28 @@ class App extends Component {
 		this.debouncedInputChange(event);
 	}
 
+	handleClickImage = (event) => {
+		const { id } = event.target.dataset;
+		this.setState({
+			selectedGif: id,
+			isModalOpen: true
+		})
+	}
+
+	handleCloseModal = () => {
+		this.setState({
+			isModalOpen: false
+		})
+	}
+
 	renderGifItems = () => {
 		return this.state.gifs.map((gif, index) => {
 			return <GifItem
 				key={gif.id}
+				id={gif.id}
 				src={gif.images.preview_gif.url}
 				alt={gif.slug}
+				onClick={this.handleClickImage}
 			/>
 		})
 	}
@@ -54,6 +72,13 @@ class App extends Component {
 				<GifsList>
 					{this.renderGifItems()}
 				</GifsList>
+				<CustomModal
+					isModalOpen={this.state.isModalOpen}
+					onClose={this.handleCloseModal}
+				>
+					<p>content</p>
+					<button onClick={this.handleCloseModal} >Close</button>
+				</CustomModal>
       </div>
     );
   }
