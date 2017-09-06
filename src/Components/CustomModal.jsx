@@ -16,6 +16,7 @@ export default function CustomModal({ isModalOpen, selectedGif, children }) {
     <Modal
       isOpen={isModalOpen}
       contentLabel="Modal"
+			closeTimeoutMS={500}
     >
       {children}
     </Modal>

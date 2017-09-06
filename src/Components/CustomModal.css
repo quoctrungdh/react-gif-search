@@ -1,6 +1,6 @@
 .ReactModalPortal > div {
   opacity: 0;
-  transform: scale(0.1);
+  transform: scale(0.3);
 }
 
 .ReactModalPortal .ReactModal__Overlay {
@@ -14,5 +14,6 @@
 }
 
 .ReactModalPortal .ReactModal__Overlay--before-close {
-  opacity: 0;
+	opacity: 0;
+	transform: scale(0.3)
 }
